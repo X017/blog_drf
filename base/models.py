@@ -47,4 +47,12 @@ class BlogModel(models.Model):
     def __str__(self):
         return f"{self.title}"
     
-
+class UserComment(models.Model):
+    post = models.ForeignKey(BlogModel,on_delete=models.CASCADE)
+    username = models.CharField(max_length=255)
+    email = models.EmailField(max_length=200)
+    comment = models.TextField(max_length=1000)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self): 
+        return f"Comment by {self.username} on {self.post.title}"

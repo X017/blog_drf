@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .serializer import BlogSerializer
-from base.models import BlogModel, PublishState, Category  
+from .serializer import BlogSerializer , CommentSerializer
+from base.models import BlogModel, PublishState, Category , UserComment
 from rest_framework import status
 
 
@@ -21,9 +21,10 @@ def viewData(request):
             return Response({'error': 'State must be an integer.'}, status=400)
     else:
         blogs = BlogModel.objects.all()
-    
+        comments = UserComment.objects.all()
     serializer = BlogSerializer(blogs, many=True)
-    return Response(serializer.data)
+    comment_serializer = CommentSerializer(comments, many=True)
+    return Response(serializer.data+comment_serializer.data)
 
 @api_view(['POST'])
 def postData(request):
