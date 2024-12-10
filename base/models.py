@@ -56,3 +56,5 @@ class UserComment(models.Model):
     
     def __str__(self): 
         return f"Comment by {self.username} on {self.post.title}"
+    class Meta:
+        ordering = ['-created_at'] 

@@ -21,10 +21,16 @@ def viewData(request):
             return Response({'error': 'State must be an integer.'}, status=400)
     else:
         blogs = BlogModel.objects.all()
-        comments = UserComment.objects.all()
+    comments = UserComment.objects.all()
+        
     serializer = BlogSerializer(blogs, many=True)
     comment_serializer = CommentSerializer(comments, many=True)
-    return Response(serializer.data+comment_serializer.data)
+    finalized_data = {
+        "blogs":serializer.data,
+        "comments":comment_serializer.data
+    }
+    return Response(finalized_data) 
+
 
 @api_view(['POST'])
 def postData(request):
